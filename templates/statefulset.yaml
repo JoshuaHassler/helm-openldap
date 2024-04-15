@@ -321,7 +321,10 @@ spec:
         - name: certs
           emptyDir:
             medium: Memory
-{{- if .Values.initTLSSecret.tls_enabled }}
+{{- if and .Values.initTLSSecret.tls_enabled .Values.initTLSSecret.tlsVolume }}
+        - name: secret-certs
+{{ toYaml .Values.initTLSSecret.tlsVolume | nindent 10 }}
+{{- else if .Values.initTLSSecret.tls_enabled }}
         - name: secret-certs
           secret:
             secretName: {{ .Values.initTLSSecret.secret }}

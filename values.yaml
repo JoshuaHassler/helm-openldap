@@ -397,6 +397,8 @@ initTLSSecret:
     pullPolicy: IfNotPresent
   # The name of a kubernetes.io/tls type secret to use for TLS
   secret: "" 
+  # volume definition for tls
+  # tlsVolume: 
   ## init-tls-secret container's resource requests and limits
   ## ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
   ## @param initTlsSecret.resources.limits The resources limits for the init container

@@ -50,7 +50,7 @@ spec:
             - -c
             - |
               host=$(hostname)
-              if [ "$host" = "{{ template "openldap.fullname" . }}-0" ]
+              if [ "$host" != "${host#{{ template "openldap.fullname" . }}-0}" ]
               then
                 echo "This is the main openldap so let's init all additional schemas and ldifs here"
                 cp -p -f /cm-schemas-acls/*.ldif /custom_config/ 
@@ -110,7 +110,7 @@ spec:
             - sh
             - -c
             - |
-              {{- if and .Values.initTLSSecret.tls_enabled .Values.initTLSSecret.secret }}
+              {{- if and .Values.initTLSSecret.tls_enabled (or .Values.initTLSSecret.secret .Values.tlsVolume) }}
               {{- else }}
               openssl req -x509 -newkey rsa:4096 -nodes -subj '/CN={{ .Values.global.ldapDomain }}' -keyout /tmp-certs/tls.key -out /tmp-certs/tls.crt -days 365
               chmod 777  /tmp-certs/*

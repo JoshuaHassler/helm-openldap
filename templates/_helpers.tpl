@@ -175,7 +175,7 @@ Cannot return list => return string comma separated
 {{- define "openldap.builtinSchemaFiles" -}}
   {{- $schemas := "" -}}
   {{- if .Values.replication.enabled -}}
-    {{- $schemas = "syncprov,serverid,csyncprov,rep,bsyncprov,brep,acls,certs" -}}
+    {{- $schemas = "syncprov,serverid,csyncprov,rep,bsyncprov,brep,acls" -}}
   {{- else -}}
     {{- $schemas = "acls" -}}
   {{- end -}}

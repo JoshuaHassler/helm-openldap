@@ -49,9 +49,6 @@ spec:
             - sh
             - -c
             - |
-              host=$(hostname)
-              if [ "$host" != "${host#{{ template "openldap.fullname" . }}-0}" ]
-              then
                 echo "This is the main openldap so let's init all additional schemas and ldifs here"
                 cp -p -f /cm-schemas-acls/*.ldif /custom_config/ 
                 if [ -d /cm-schemas ]; then
@@ -60,11 +57,6 @@ spec:
                 if [ -d /cm-ldifs ]; then
                   cp -p -f /cm-ldifs/*.ldif /custom-ldifs/ 
                 fi
-              else
-                cp -p -f /cm-schemas-acls/*.ldif /custom_config/
-                rm -rf /custom_config/acls.ldif
-                echo "let the replication takes care of everything :)"
-              fi
             {{- if .Values.global.existingSecret }}
               sed -i -e "s/%%CONFIG_PASSWORD%%/${LDAP_CONFIG_ADMIN_PASSWORD}/g" /custom_config/*
               sed -i -e "s/%%ADMIN_PASSWORD%%/${LDAP_ADMIN_PASSWORD}/g" /custom_config/*
